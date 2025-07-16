@@ -1,0 +1,50 @@
+users [icon:user]{
+   _id string pk
+   username string 
+   email string 
+   password string
+
+}
+
+products [icon:box]{
+      _id string pk
+      name string 
+      description string 
+      productImage string 
+      price number
+      stock number
+      category ObjectId categories
+      owner ObjectId users
+      createdAt Date
+      updatedAt Date
+}
+
+categories [icon:package]{
+     _id string pk
+     name string 
+     createdAt Date
+     updatedAt Date
+}
+
+orderItems [icon:list]{
+   _id string pk
+   productId ObjectId products
+   quantity number
+}
+
+orders [icon:list]{
+  _id string pk
+  customer ObjectId users
+  orderItems ObjectId[] orderItems
+  address string 
+  status enum "PENDING","CANCELLED","DELIVERED"
+  paymentId string 
+  createdAt Date
+  updatedAt Date
+}
+
+products.category - categories._id
+product.owner - users._id
+orderItems.productId - products._id
+orders.customer -users.id
+orders.orderItems < orderItems._id
